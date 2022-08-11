@@ -5,11 +5,11 @@ import NewTaskForm from "../new-task-form";
 import './header.css';
 
 
-const Header = () => {
+const Header = ({addItem}) => {
     return (
         <header className="header">
             <h1>todos</h1>
-            <NewTaskForm />
+            <NewTaskForm addItem={addItem}/>
         </header>
     );
 };

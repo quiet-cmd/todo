@@ -9,6 +9,8 @@ import './app.css'
 
 export default class App extends Component {
 
+    maxId = 100;
+
     state = {
         tasks: [ //status -> editing || completed || ''
             {id: 1, status: '', text: 'Completed task'},
@@ -25,6 +27,20 @@ export default class App extends Component {
         });
     };
 
+    addItem = (text) => {
+        const item = {
+            id: this.maxId++,
+            status: '',
+            text: text,
+        };
+        this.setState( ({tasks}) => {
+            console.log([item, ...tasks])
+            return {
+                tasks: [...tasks, item]
+            }
+        });
+    };
+
     doneToggle = (id) => {
         this.setState( ( {tasks} ) => {
             return {
@@ -33,7 +49,7 @@ export default class App extends Component {
                     if(id === el.id) {
                         el.status = status === 'completed' ? '': 'completed';
                     }
-                    return el
+                    return el;
                 })
             };
         });
@@ -45,7 +61,7 @@ export default class App extends Component {
 
         return (
             <section className="todoapp">
-                <Header />
+                <Header addItem={ (text) => this.addItem(text) }/>
                 <section className="main">
                     <TaskList tasks={ tasks } onDeleted={ (id) => this.deleteItem(id) } doneToggle={ (id) => this.doneToggle(id) }/>
                     <Footer />
