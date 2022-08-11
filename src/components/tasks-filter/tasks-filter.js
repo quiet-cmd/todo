@@ -2,19 +2,26 @@ import React from "react";
 
 import './tasks-filter.css';
 
-const TasksFilter = () => {
+const filterButtons = [
+    { name: 'all', label: 'All' },
+    { name: 'uncompleted', label: 'Active' },
+    { name: 'completed', label: 'Completed' }
+];
+
+const TasksFilter = ({ filter, changeFilter}) => {
+    const btn = filterButtons.map( ( {name, label } ) => {
+        const selected = filter === name ? "selected" : "";
+        return (
+            <li key={ name }>
+                <button className={selected} onClick={ () => {changeFilter(name)} }>{ label }</button>
+            </li>
+        );
+    });
+
     return (
         <ul className="filters">
-        <li>
-            <button className="selected">All</button>
-        </li>
-        <li>
-            <button>Active</button>
-        </li>
-        <li>
-            <button>Completed</button>
-        </li>
-    </ul>
+            { btn }
+        </ul>
     );
 };
 

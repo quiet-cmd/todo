@@ -5,12 +5,12 @@ import TasksFilter from "../tasks-filter";
 import './footer.css';
 
 
-const Footer = () => {
+const Footer = ({sizeUncompleted,  deleteCompleted, filter, changeFilter }) => {
     return (
         <footer className="footer">
-            <span className="todo-count">1 items left</span>
-            <TasksFilter />
-            <button className="clear-completed">Clear completed</button>
+            <span className="todo-count">{ sizeUncompleted } items left</span>
+            <TasksFilter filter={ filter } changeFilter={ changeFilter }/>
+            <button className="clear-completed" onClick={ (text) => { deleteCompleted(text) } }>Clear completed</button>
       </footer>
     );
 };

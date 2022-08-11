@@ -17,6 +17,7 @@ export default class App extends Component {
             {id: 2, status: 'editing', text: 'Editing task'},
             {id: 3, status: '', text: 'Active task'},
         ],
+        filter: 'all',
     };
 
     deleteItem = (id) => {
@@ -27,6 +28,7 @@ export default class App extends Component {
         });
     };
 
+
     addItem = (text) => {
         const item = {
             id: this.maxId++,
@@ -34,12 +36,38 @@ export default class App extends Component {
             text: text,
         };
         this.setState( ({tasks}) => {
-            console.log([item, ...tasks])
             return {
                 tasks: [...tasks, item]
             }
         });
     };
+    
+
+    deleteCompleted = () => {
+        this.setState( ( {tasks} ) => {
+            return {
+                tasks: tasks.filter( ( {status: el} ) => { return el !== 'completed'} )
+            }
+        });
+    };
+
+
+    changeFilter = (filter) => {
+        this.setState( () => {
+            return {filter: filter}
+        });
+    };
+
+    filterItems(items, filter) {
+        if (filter === 'all') {
+          return items;
+        } else if (filter === 'uncompleted') {
+          return items.filter((item) => { return (!item.status) });
+        } else if (filter === 'completed') {
+          return items.filter((item) => { return item.status });
+        }
+      }
+
 
     doneToggle = (id) => {
         this.setState( ( {tasks} ) => {
@@ -55,16 +83,20 @@ export default class App extends Component {
         });
     };
 
+
     render() {
 
-        const { tasks } = this.state
+        const { tasks, filter } = this.state
+        const sizeUncompleted = tasks.reduce( (acc, { status }) => acc += status !== 'completed', 0)
+        const visibly = this.filterItems(tasks, filter);
 
         return (
             <section className="todoapp">
                 <Header addItem={ (text) => this.addItem(text) }/>
                 <section className="main">
-                    <TaskList tasks={ tasks } onDeleted={ (id) => this.deleteItem(id) } doneToggle={ (id) => this.doneToggle(id) }/>
-                    <Footer />
+                    <TaskList tasks={ visibly } onDeleted={ (id) => this.deleteItem(id) } doneToggle={ (id) => this.doneToggle(id) }/>
+                    <Footer  sizeUncompleted={ sizeUncompleted } filter={ filter }
+                    deleteCompleted={ () => this.deleteCompleted()  } changeFilter={(text) => this.changeFilter(text)}/>
                 </section>
             </section>     
         );
