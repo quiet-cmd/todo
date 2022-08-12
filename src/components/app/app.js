@@ -11,10 +11,11 @@ export default class App extends Component {
 
   state = {
     tasks: [
-      //status -> editing || completed || ''
+      /*
       { id: 1, status: '', text: 'Completed task' },
       { id: 2, status: 'editing', text: 'Editing task' },
       { id: 3, status: '', text: 'Active task' },
+      */
     ],
     filter: 'all',
   };
