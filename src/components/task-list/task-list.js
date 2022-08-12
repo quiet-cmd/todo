@@ -8,13 +8,16 @@ import './task-list.css'
 export default class TaskList extends Component {
 
     render() {
-        const { tasks, onDeleted, doneToggle } = this.props;
+        const { tasks, onDeleted, doneToggle, editingBtn, editingText } = this.props;
 
         const task = tasks.map( ( {id, status, ...par} ) => {
             return (
                 <li key={ id } className={ status.toString() } >
-                    <Task {...par} onDeleted={ () => onDeleted(id) } doneToggle= { () => doneToggle(id) } />
-                    { status === 'editing' && <TaskEditing /> }
+                    <Task {...par}
+                    onDeleted={ () => onDeleted(id) }
+                    doneToggle= { () => doneToggle(id) }
+                    editingBtn= { () => editingBtn(id)}/>
+                    { status === 'editing' && <TaskEditing editingText={ (text) => editingText(id, text) }/> }
                 </li>
             );
         });

@@ -1,11 +1,33 @@
-import React from "react";
+import React, { Component } from "react";
 
 import './task-editing.css'
 
-const TaskEditing = () => {
-    return (
-        <input type="text" className="edit" defaultValue="Editing task" />
-    );
-};
+export default class TaskEditing extends Component {
 
-export default TaskEditing;
+    state = {
+        value: 'Editing task',
+    };
+
+    inputTask = (e) => {
+        this.setState( () => {
+            return {value: e.target.value }
+        });
+    };
+
+    inputInter = (e) => {
+       if(e.key === 'Enter') {
+         this.setState( () => {
+            this.props.editingText( this.state.value )
+            return {value: '' }
+         });
+       }
+    };
+
+    render() {
+        return (
+        <input type="text" className="edit" value={ this.state.value }
+        onChange={ this.inputTask } onKeyPress={ this.inputInter }/>
+        );
+    }
+
+};

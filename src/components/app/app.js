@@ -66,7 +66,7 @@ export default class App extends Component {
         } else if (filter === 'completed') {
           return items.filter((item) => { return item.status });
         }
-      }
+    }
 
 
     doneToggle = (id) => {
@@ -76,6 +76,35 @@ export default class App extends Component {
                     let {status} = el
                     if(id === el.id) {
                         el.status = status === 'completed' ? '': 'completed';
+                    }
+                    return el;
+                })
+            };
+        });
+    };
+
+
+    editingBtn = (id) => {
+        this.setState( ( {tasks} ) => {
+            return {
+                tasks: tasks.map( (el) => { 
+                    if(id === el.id) {
+                        el.status = 'editing';
+                    }
+                    return el;
+                })
+            };
+        });
+    };
+
+
+    editingText = (id, text) => {
+        this.setState( ( {tasks} ) => {
+            return {
+                tasks: tasks.map( (el) => { 
+                    if(id === el.id) {
+                        el.text = text;
+                        el.status = '';
                     }
                     return el;
                 })
@@ -94,7 +123,10 @@ export default class App extends Component {
             <section className="todoapp">
                 <Header addItem={ (text) => this.addItem(text) }/>
                 <section className="main">
-                    <TaskList tasks={ visibly } onDeleted={ (id) => this.deleteItem(id) } doneToggle={ (id) => this.doneToggle(id) }/>
+                    <TaskList tasks={ visibly } onDeleted={ (id) => this.deleteItem(id) }
+                    doneToggle={ (id) => this.doneToggle(id) }
+                    editingBtn={ (id) => this.editingBtn(id) }
+                    editingText={ (id, text) => this.editingText(id, text) }/>
                     <Footer  sizeUncompleted={ sizeUncompleted } filter={ filter }
                     deleteCompleted={ () => this.deleteCompleted()  } changeFilter={(text) => this.changeFilter(text)}/>
                 </section>
