@@ -1,3 +1,3 @@
-import TaskEditing from "./task-editing";
+import TaskEditing from './task-editing';
 
 export default TaskEditing;
