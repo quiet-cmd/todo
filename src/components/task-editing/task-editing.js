@@ -23,6 +23,14 @@ export default class TaskEditing extends Component {
   };
 
   render() {
-    return <input type="text" className="edit" value={this.state.value} onChange={this.inputTask} onKeyPress={this.inputInter} />;
+    return (
+      <input
+        type="text"
+        className="edit"
+        value={this.state.value}
+        onChange={this.inputTask}
+        onKeyPress={this.inputInter}
+      />
+    );
   }
 }

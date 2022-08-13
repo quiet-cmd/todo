@@ -23,6 +23,15 @@ export default class NewTaskForm extends Component {
   };
 
   render() {
-    return <input className="new-todo" placeholder="What needs to be done?" autoFocus value={this.state.value} onChange={this.inputTask} onKeyPress={this.inputInter} />;
+    return (
+      <input
+        className="new-todo"
+        placeholder="What needs to be done?"
+        autoFocus
+        value={this.state.value}
+        onChange={this.inputTask}
+        onKeyPress={this.inputInter}
+      />
+    );
   }
 }

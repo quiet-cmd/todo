@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import Task from '../task';
 import TaskEditing from '../task-editing';
@@ -12,7 +13,12 @@ export default class TaskList extends Component {
     const task = tasks.map(({ id, status, ...par }) => {
       return (
         <li key={id} className={status.toString()}>
-          <Task {...par} onDeleted={() => onDeleted(id)} doneToggle={() => doneToggle(id)} editingBtn={() => editingBtn(id)} />
+          <Task
+            {...par}
+            onDeleted={() => onDeleted(id)}
+            doneToggle={() => doneToggle(id)}
+            editingBtn={() => editingBtn(id)}
+          />
           {status === 'editing' && <TaskEditing editingText={(text) => editingText(id, text)} />}
         </li>
       );
@@ -21,3 +27,13 @@ export default class TaskList extends Component {
     return <ul className="todo-list">{task}</ul>;
   }
 }
+
+TaskList.propTypes = {
+  tasks: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number,
+      status: PropTypes.oneOf(['', 'completed', 'editing']),
+      text: PropTypes.string,
+    })
+  ),
+};

@@ -125,8 +125,19 @@ export default class App extends Component {
       <section className="todoapp">
         <Header addItem={(text) => this.addItem(text)} />
         <section className="main">
-          <TaskList tasks={visibly} onDeleted={(id) => this.deleteItem(id)} doneToggle={(id) => this.doneToggle(id)} editingBtn={(id) => this.editingBtn(id)} editingText={(id, text) => this.editingText(id, text)} />
-          <Footer sizeUncompleted={sizeUncompleted} filter={filter} deleteCompleted={() => this.deleteCompleted()} changeFilter={(text) => this.changeFilter(text)} />
+          <TaskList
+            tasks={visibly}
+            onDeleted={(id) => this.deleteItem(id)}
+            doneToggle={(id) => this.doneToggle(id)}
+            editingBtn={(id) => this.editingBtn(id)}
+            editingText={(id, text) => this.editingText(id, text)}
+          />
+          <Footer
+            sizeUncompleted={sizeUncompleted}
+            filter={filter}
+            deleteCompleted={() => this.deleteCompleted()}
+            changeFilter={(text) => this.changeFilter(text)}
+          />
         </section>
       </section>
     );
