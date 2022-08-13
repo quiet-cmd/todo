@@ -15,6 +15,7 @@ export default class TaskList extends Component {
         <li key={id} className={status.toString()}>
           <Task
             {...par}
+            status={status}
             onDeleted={() => onDeleted(id)}
             doneToggle={() => doneToggle(id)}
             editingBtn={() => editingBtn(id)}
@@ -34,7 +35,7 @@ TaskList.propTypes = {
       id: PropTypes.number,
       status: PropTypes.oneOf(['', 'completed', 'editing']),
       text: PropTypes.string,
-      createTime: PropTypes.instanceOf(Date),
+      createTime: PropTypes.number,
     })
   ),
 };
