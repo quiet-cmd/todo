@@ -116,7 +116,7 @@ export default class App extends Component {
             tasks={visibly}
             statuses={statuses}
             onDeleted={(id) => this.deleteItem(id)}
-            doneToggle={(id) => this.doneToggle(id)}
+            doneToggle={(id, e) => this.doneToggle(id, e)}
             editingBtn={(id) => this.editingBtn(id)}
             editingText={(id, text) => this.editingText(id, text)}
           />

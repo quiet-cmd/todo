@@ -6,5 +6,6 @@ import App from './components/app';
 import './index.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+const toggle = document.querySelector('.toggle');
 
-root.render(<App />);
+root.render(<App toggle={toggle} />);
