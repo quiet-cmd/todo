@@ -1,1 +1,1 @@
-https://todo-mcbs6g7qt-quiet-cmd.vercel.app/
+https://todo-git-master-quiet-cmd.vercel.app/
