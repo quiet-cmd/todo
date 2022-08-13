@@ -35,6 +35,7 @@ export default class App extends Component {
       id: this.maxId++,
       status: '',
       text: text,
+      createTime: new Date().getTime(),
     };
     this.setState(({ tasks }) => {
       return {
@@ -45,34 +46,18 @@ export default class App extends Component {
 
   deleteCompleted = () => {
     this.setState(({ tasks }) => {
-      return {
-        tasks: tasks.filter(({ status: el }) => {
-          return el !== 'completed';
-        }),
-      };
+      return { tasks: tasks.filter(({ status }) => status !== 'completed') };
     });
   };
 
   changeFilter = (filter) => {
-    this.setState(() => {
-      return { filter: filter };
-    });
+    this.setState(() => ({ filter: filter }));
   };
 
   filterItems(items, filter) {
-    if (filter === 'all') {
-      return items;
-    }
-    if (filter === 'uncompleted') {
-      return items.filter((item) => {
-        return !item.status;
-      });
-    }
-    if (filter === 'completed') {
-      return items.filter((item) => {
-        return item.status;
-      });
-    }
+    if (filter === 'all') return items;
+    if (filter === 'uncompleted') return items.filter(({ status }) => !status);
+    if (filter === 'completed') return items.filter(({ status }) => status);
   }
 
   doneToggle = (id) => {
@@ -80,9 +65,7 @@ export default class App extends Component {
       return {
         tasks: tasks.map((el) => {
           let { status } = el;
-          if (id === el.id) {
-            el.status = status === 'completed' ? '' : 'completed';
-          }
+          if (id === el.id) el.status = status === 'completed' ? '' : 'completed';
           return el;
         }),
       };
@@ -93,9 +76,7 @@ export default class App extends Component {
     this.setState(({ tasks }) => {
       return {
         tasks: tasks.map((el) => {
-          if (id === el.id) {
-            el.status = 'editing';
-          }
+          if (id === el.id) el.status = 'editing';
           return el;
         }),
       };

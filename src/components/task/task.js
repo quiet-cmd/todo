@@ -5,8 +5,7 @@ import './task.css';
 
 export default class Task extends Component {
   state = {
-    createTime: new Date().getTime(),
-    timeAgo: ' less than 1 seconds',
+    timeAgo: formatDistanceToNow(this.props.createTime, { includeSeconds: true }),
   };
 
   componentDidMount() {
@@ -18,9 +17,9 @@ export default class Task extends Component {
   }
 
   tick() {
-    this.setState(({ createTime }) => {
+    this.setState(() => {
       return {
-        timeAgo: formatDistanceToNow(createTime, { includeSeconds: true }),
+        timeAgo: formatDistanceToNow(this.props.createTime, { includeSeconds: true }),
       };
     });
   }
@@ -34,7 +33,7 @@ export default class Task extends Component {
         <input className="toggle" type="checkbox" onClick={doneToggle} />
         <label>
           <span className="description">{text}</span>
-          <span className="created">created {timeAgo} </span>
+          <span className="created">created {timeAgo}</span>
         </label>
         <button className="icon icon-edit" onClick={editingBtn}></button>
         <button className="icon icon-destroy" onClick={onDeleted}></button>

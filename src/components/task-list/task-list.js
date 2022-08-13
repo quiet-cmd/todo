@@ -34,6 +34,7 @@ TaskList.propTypes = {
       id: PropTypes.number,
       status: PropTypes.oneOf(['', 'completed', 'editing']),
       text: PropTypes.string,
+      createTime: PropTypes.instanceOf(Date),
     })
   ),
 };

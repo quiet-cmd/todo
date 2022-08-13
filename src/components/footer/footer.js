@@ -9,12 +9,7 @@ const Footer = ({ sizeUncompleted, deleteCompleted, filter, changeFilter }) => {
     <footer className="footer">
       <span className="todo-count">{sizeUncompleted} items left</span>
       <TasksFilter filter={filter} changeFilter={changeFilter} />
-      <button
-        className="clear-completed"
-        onClick={(text) => {
-          deleteCompleted(text);
-        }}
-      >
+      <button className="clear-completed" onClick={(text) => deleteCompleted(text)}>
         Clear completed
       </button>
     </footer>

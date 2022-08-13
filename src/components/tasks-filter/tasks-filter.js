@@ -13,12 +13,7 @@ const TasksFilter = ({ filter, changeFilter }) => {
     const selected = filter === name ? 'selected' : '';
     return (
       <li key={name}>
-        <button
-          className={selected}
-          onClick={() => {
-            changeFilter(name);
-          }}
-        >
+        <button className={selected} onClick={() => changeFilter(name)}>
           {label}
         </button>
       </li>
