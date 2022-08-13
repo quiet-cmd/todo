@@ -10,13 +10,12 @@ export default class App extends Component {
   maxId = 100;
 
   state = {
-    tasks: [
-      /*
-      { id: 1, status: '', text: 'Completed task' },
-      { id: 2, status: 'editing', text: 'Editing task' },
-      { id: 3, status: '', text: 'Active task' },
-      */
-    ],
+    tasks: [],
+    statuses: {
+      completed: 'completed',
+      editing: 'editing',
+      uncompleted: 'uncompleted',
+    },
     filter: 'all',
   };
 
@@ -31,9 +30,11 @@ export default class App extends Component {
   };
 
   addItem = (text) => {
+    const status = this.state.statuses.uncompleted;
     const item = {
       id: this.maxId++,
-      status: '',
+      status: status,
+      prevStatus: status,
       text: text,
       createTime: new Date().getTime(),
     };
@@ -45,8 +46,8 @@ export default class App extends Component {
   };
 
   deleteCompleted = () => {
-    this.setState(({ tasks }) => {
-      return { tasks: tasks.filter(({ status }) => status !== 'completed') };
+    this.setState(({ tasks, statuses: { completed } }) => {
+      return { tasks: tasks.filter(({ status }) => status !== completed) };
     });
   };
 
@@ -54,18 +55,19 @@ export default class App extends Component {
     this.setState(() => ({ filter: filter }));
   };
 
-  filterItems(items, filter) {
+  filterItems(items, filter, filters) {
+    const { completed, uncompleted } = filters;
     if (filter === 'all') return items;
-    if (filter === 'uncompleted') return items.filter(({ status }) => !status);
-    if (filter === 'completed') return items.filter(({ status }) => status);
+    if (filter === 'uncompleted') return items.filter(({ status }) => status === uncompleted);
+    if (filter === 'completed') return items.filter(({ status }) => status === completed);
   }
 
   doneToggle = (id) => {
-    this.setState(({ tasks }) => {
+    this.setState(({ tasks, statuses: { completed, uncompleted } }) => {
       return {
         tasks: tasks.map((el) => {
           let { status } = el;
-          if (id === el.id) el.status = status === 'completed' ? '' : 'completed';
+          if (id === el.id) el.status = status === completed ? uncompleted : completed;
           return el;
         }),
       };
@@ -73,10 +75,13 @@ export default class App extends Component {
   };
 
   editingBtn = (id) => {
-    this.setState(({ tasks }) => {
+    this.setState(({ tasks, statuses: { editing } }) => {
       return {
         tasks: tasks.map((el) => {
-          if (id === el.id) el.status = 'editing';
+          if (id === el.id) {
+            el.prevStatus = el.status;
+            el.status = editing;
+          }
           return el;
         }),
       };
@@ -89,7 +94,7 @@ export default class App extends Component {
         tasks: tasks.map((el) => {
           if (id === el.id) {
             el.text = text;
-            el.status = '';
+            el.status = el.prevStatus;
           }
           return el;
         }),
@@ -98,9 +103,10 @@ export default class App extends Component {
   };
 
   render() {
-    const { tasks, filter } = this.state;
-    const sizeUncompleted = tasks.reduce((acc, { status }) => (acc += status !== 'completed'), 0);
-    const visibly = this.filterItems(tasks, filter);
+    const { tasks, filter, statuses } = this.state;
+    const { completed } = statuses;
+    const sizeUncompleted = tasks.reduce((acc, { status }) => (acc += status !== completed), 0);
+    const visibly = this.filterItems(tasks, filter, statuses);
 
     return (
       <section className="todoapp">
@@ -108,6 +114,7 @@ export default class App extends Component {
         <section className="main">
           <TaskList
             tasks={visibly}
+            statuses={statuses}
             onDeleted={(id) => this.deleteItem(id)}
             doneToggle={(id) => this.doneToggle(id)}
             editingBtn={(id) => this.editingBtn(id)}

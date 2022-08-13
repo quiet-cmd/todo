@@ -25,12 +25,12 @@ export default class Task extends Component {
   }
 
   render() {
-    const { text, status, onDeleted, doneToggle, editingBtn } = this.props;
+    const { text, onDeleted, doneToggle, editingBtn } = this.props;
     const { timeAgo } = this.state;
 
     return (
       <div className="view">
-        <input className="toggle" type="checkbox" onClick={doneToggle} checked={status === 'completed'} />
+        <input className="toggle" type="checkbox" onClick={doneToggle} />
         <label>
           <span className="description">{text}</span>
           <span className="created">created {timeAgo}</span>
