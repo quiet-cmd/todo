@@ -6,7 +6,7 @@ import TaskEditing from '../task-editing';
 import './task-list.css';
 
 export default class TaskList extends Component {
-  hello = (e, id, fn) => {
+  switchStatus = (e, id, fn) => {
     const checkbox = e.currentTarget.querySelector('.toggle');
     checkbox.checked = checkbox.checked ? false : true;
     fn(id);
@@ -24,7 +24,7 @@ export default class TaskList extends Component {
 
     const task = tasks.map(({ id, status, ...par }) => {
       return (
-        <li key={id} className={status.toString()} onClick={(e) => this.hello(e, id, doneToggle)}>
+        <li key={id} className={status.toString()} onClick={(e) => this.switchStatus(e, id, doneToggle)}>
           <Task {...par} onDeleted={() => onDeleted(id)} editingBtn={() => editingBtn(id)} />
           {status === editing && <TaskEditing editingText={(text) => editingText(id, text)} />}
         </li>
