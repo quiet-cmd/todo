@@ -17,11 +17,9 @@ export default class Task extends Component {
   }
 
   tick() {
-    this.setState(() => {
-      return {
-        timeAgo: formatDistanceToNow(this.props.createTime, { includeSeconds: true }),
-      };
-    });
+    this.setState(() => ({
+      timeAgo: formatDistanceToNow(this.props.createTime, { includeSeconds: true }),
+    }));
   }
 
   render() {
