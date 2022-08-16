@@ -37,6 +37,7 @@ export default class App extends Component {
       prevStatus: status,
       text: text,
       createTime: new Date().getTime(),
+      checked: false,
     };
     this.setState(({ tasks }) => {
       return {
@@ -66,8 +67,11 @@ export default class App extends Component {
     this.setState(({ tasks, statuses: { completed, uncompleted } }) => {
       return {
         tasks: tasks.map((el) => {
-          let { status } = el;
-          if (id === el.id) el.status = status === completed ? uncompleted : completed;
+          let { status, checked } = el;
+          if (id === el.id) {
+            el.status = status === completed ? uncompleted : completed;
+            el.checked = !checked;
+          }
           return el;
         }),
       };
@@ -116,7 +120,7 @@ export default class App extends Component {
             tasks={visibly}
             statuses={statuses}
             onDeleted={(id) => this.deleteItem(id)}
-            doneToggle={(id, e) => this.doneToggle(id, e)}
+            doneToggle={(id, checked) => this.doneToggle(id, checked)}
             editingBtn={(id) => this.editingBtn(id)}
             editingText={(id, text) => this.editingText(id, text)}
           />

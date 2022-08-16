@@ -8,11 +8,7 @@ import './task-list.css';
 export default class TaskList extends Component {
   switchStatus = (e, id, fn, status) => {
     const target = e.target.localName;
-    const checkbox = e.currentTarget.querySelector('.toggle');
-    if (target !== 'input' && target !== 'button' && e.currentTarget.className !== status) {
-      checkbox.checked = checkbox.checked ? false : true;
-      fn(id);
-    }
+    if (target !== 'input' && target !== 'button' && e.currentTarget.className !== status) fn(id);
   };
 
   render() {
