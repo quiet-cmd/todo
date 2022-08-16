@@ -43,7 +43,7 @@ export default class App extends Component {
   };
 
   changeFilter = (filter) => {
-    this.setState(() => ({ filter: filter }));
+    this.setState({ filter: filter });
   };
 
   filterItems(items, filter, filters) {
