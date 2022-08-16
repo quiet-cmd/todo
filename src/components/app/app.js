@@ -20,13 +20,7 @@ export default class App extends Component {
   };
 
   deleteItem = (id) => {
-    this.setState(({ tasks }) => {
-      return {
-        tasks: tasks.filter(({ id: el }) => {
-          return el !== id;
-        }),
-      };
-    });
+    this.setState(({ tasks }) => ({ tasks: tasks.filter(({ id: el }) => el !== id) }));
   };
 
   addItem = (text) => {
@@ -39,11 +33,7 @@ export default class App extends Component {
       createTime: new Date().getTime(),
       checked: false,
     };
-    this.setState(({ tasks }) => {
-      return {
-        tasks: [...tasks, item],
-      };
-    });
+    this.setState(({ tasks }) => ({ tasks: [...tasks, item] }));
   };
 
   deleteCompleted = () => {

@@ -8,17 +8,13 @@ export default class NewTaskForm extends Component {
   };
 
   inputTask = (e) => {
-    this.setState(() => {
-      return { value: e.target.value };
-    });
+    this.setState({ value: e.target.value });
   };
 
   inputInter = (e) => {
     if (e.key === 'Enter') {
-      this.setState(() => {
-        this.props.addItem(this.state.value);
-        return { value: '' };
-      });
+      this.props.addItem(this.state.value);
+      this.setState({ value: '' });
     }
   };
 
