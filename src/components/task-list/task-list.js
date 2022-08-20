@@ -7,8 +7,9 @@ import './task-list.css';
 
 export default class TaskList extends Component {
   switchStatus = (e, id, fn, status) => {
-    const target = e.target.localName;
-    if (target !== 'input' && target !== 'button' && e.currentTarget.className !== status) fn(id);
+    const targetName = e.target.localName;
+    const typeExp = targetName !== 'input' && targetName !== 'button';
+    if (typeExp && e.currentTarget.className !== status) fn(id);
   };
 
   render() {
@@ -21,7 +22,7 @@ export default class TaskList extends Component {
       editingText,
     } = this.props;
 
-    const task = tasks.map(({ id, status, ...par }) => {
+    const task = tasks.map(({ id, status, stopwatchTime, ...par }) => {
       return (
         <li
           key={id}
@@ -30,6 +31,7 @@ export default class TaskList extends Component {
         >
           <Task
             {...par}
+            stopwatchTime={stopwatchTime}
             onDeleted={() => onDeleted(id)}
             editingBtn={() => editingBtn(id)}
             doneToggle={() => doneToggle(id)}

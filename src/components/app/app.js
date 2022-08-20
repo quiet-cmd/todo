@@ -23,15 +23,16 @@ export default class App extends Component {
     this.setState(({ tasks }) => ({ tasks: tasks.filter(({ id: el }) => el !== id) }));
   };
 
-  addItem = (text) => {
+  addItem = (value, minutes, seconds) => {
     const status = this.state.statuses.uncompleted;
     const item = {
       id: this.maxId++,
       status: status,
       prevStatus: status,
-      text: text,
+      text: value,
       createTime: new Date().getTime(),
       checked: false,
+      stopwatchTime: minutes * 60 * 1000 + seconds * 1000,
     };
     this.setState(({ tasks }) => ({ tasks: [...tasks, item] }));
   };
@@ -104,7 +105,7 @@ export default class App extends Component {
 
     return (
       <section className="todoapp">
-        <Header addItem={(text) => this.addItem(text)} />
+        <Header addItem={(text, minutes, seconds) => this.addItem(text, minutes, seconds)} />
         <section className="main">
           <TaskList
             tasks={visibly}
@@ -113,6 +114,7 @@ export default class App extends Component {
             doneToggle={(id, checked) => this.doneToggle(id, checked)}
             editingBtn={(id) => this.editingBtn(id)}
             editingText={(id, text) => this.editingText(id, text)}
+            updateStopwatchActive={(id, boolean) => this.updateStopwatchActive(id, boolean)}
           />
           <Footer
             sizeUncompleted={sizeUncompleted}
