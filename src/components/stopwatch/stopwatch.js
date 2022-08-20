@@ -12,6 +12,7 @@ export default class Stopwatch extends Component {
   }
 
   componentWillUnmount() {
+    this.props.updateStopwatchTime(this.state.timer);
     clearInterval(this.timerID);
   }
 

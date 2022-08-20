@@ -97,6 +97,17 @@ export default class App extends Component {
     });
   };
 
+  updateStopwatchTime = (id, time) => {
+    this.setState(({ tasks }) => {
+      return {
+        tasks: tasks.map((el) => {
+          if (id === el.id) el.stopwatchTime = time;
+          return el;
+        }),
+      };
+    });
+  };
+
   render() {
     const { tasks, filter, statuses } = this.state;
     const { completed } = statuses;
@@ -114,7 +125,7 @@ export default class App extends Component {
             doneToggle={(id, checked) => this.doneToggle(id, checked)}
             editingBtn={(id) => this.editingBtn(id)}
             editingText={(id, text) => this.editingText(id, text)}
-            updateStopwatchActive={(id, boolean) => this.updateStopwatchActive(id, boolean)}
+            updateStopwatchTime={(id, time) => this.updateStopwatchTime(id, time)}
           />
           <Footer
             sizeUncompleted={sizeUncompleted}

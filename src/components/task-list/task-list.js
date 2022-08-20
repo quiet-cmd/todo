@@ -20,6 +20,7 @@ export default class TaskList extends Component {
       doneToggle,
       editingBtn,
       editingText,
+      updateStopwatchTime,
     } = this.props;
 
     const task = tasks.map(({ id, status, stopwatchTime, ...par }) => {
@@ -32,6 +33,7 @@ export default class TaskList extends Component {
           <Task
             {...par}
             stopwatchTime={stopwatchTime}
+            updateStopwatchTime={(time) => updateStopwatchTime(id, time)}
             onDeleted={() => onDeleted(id)}
             editingBtn={() => editingBtn(id)}
             doneToggle={() => doneToggle(id)}
