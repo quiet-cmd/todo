@@ -9,16 +9,22 @@ export default class NewTaskForm extends Component {
     seconds: '',
   };
 
+  validator = (text) => {
+    return text.replace('-', '').replace('.', '').slice(0, 3);
+  };
+
   inputTask = (e) => {
     this.setState({ value: e.target.value });
   };
 
   inputMinutes = (e) => {
-    this.setState({ minutes: e.target.value });
+    const val = this.validator(e.target.value);
+    this.setState({ minutes: val });
   };
 
   inputSeconds = (e) => {
-    this.setState({ seconds: e.target.value });
+    const val = this.validator(e.target.value);
+    this.setState({ seconds: val });
   };
 
   inputInter = (e) => {
