@@ -27,6 +27,10 @@ export default class Stopwatch extends Component {
 
   timeFormat(time) {
     const timestamp = new Date(1995, 11, 17, 0, 0, 0).getTime();
+    if (time >= 86399000) {
+      time = time % 86399000;
+      this.setState({ timer: time });
+    }
     const date = new Date(timestamp + time);
     return format(date, 'HH:mm:ss');
   }
