@@ -5,23 +5,35 @@ import './stopwatch.css';
 export default class Stopwatch extends Component {
   state = {
     timer: 0,
+    player: false,
   };
 
   componentDidMount() {
-    this.setState({ timer: this.props.stopwatchTime });
+    const { stopwatchTime, playerState } = this.props;
+    if (playerState) {
+      const time = new Date() - stopwatchTime;
+      this.setState({ timer: time });
+      this.timerStart();
+      return;
+    }
+    this.setState({ timer: stopwatchTime });
   }
 
   componentWillUnmount() {
-    this.props.updateStopwatchTime(this.state.timer);
+    const { timer, player } = this.state;
     clearInterval(this.timerID);
+    if (player) return this.props.updateStopwatchTime(new Date() - timer, player);
+    this.props.updateStopwatchTime(timer, player);
   }
 
   timerStart = () => {
+    this.setState({ player: true });
     clearInterval(this.timerID);
     this.timerID = setInterval(() => this.setState({ timer: this.state.timer + 1000 }), 1000);
   };
 
   timerStop = () => {
+    this.setState({ player: false });
     clearInterval(this.timerID);
   };
 

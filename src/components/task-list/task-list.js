@@ -23,7 +23,7 @@ export default class TaskList extends Component {
       updateStopwatchTime,
     } = this.props;
 
-    const task = tasks.map(({ id, status, stopwatchTime, ...par }) => {
+    const task = tasks.map(({ id, status, ...par }) => {
       return (
         <li
           key={id}
@@ -32,13 +32,12 @@ export default class TaskList extends Component {
         >
           <Task
             {...par}
-            stopwatchTime={stopwatchTime}
-            updateStopwatchTime={(time) => updateStopwatchTime(id, time)}
+            updateStopwatchTime={(time, playerState) => updateStopwatchTime(id, time, playerState)}
             onDeleted={() => onDeleted(id)}
             editingBtn={() => editingBtn(id)}
             doneToggle={() => doneToggle(id)}
           />
-          {status === editing && <TaskEditing editingText={(text) => editingText(id, text)} />}
+          {status === editing && <TaskEditing editingText={() => editingText(id)} />}
         </li>
       );
     });

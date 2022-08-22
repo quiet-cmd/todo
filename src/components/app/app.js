@@ -33,6 +33,7 @@ export default class App extends Component {
       createTime: new Date().getTime(),
       checked: false,
       stopwatchTime: minutes * 60 * 1000 + seconds * 1000,
+      playerState: false,
     };
     this.setState(({ tasks }) => ({ tasks: [...tasks, item] }));
   };
@@ -97,11 +98,14 @@ export default class App extends Component {
     });
   };
 
-  updateStopwatchTime = (id, time) => {
+  updateStopwatchTime = (id, time, playerState) => {
     this.setState(({ tasks }) => {
       return {
         tasks: tasks.map((el) => {
-          if (id === el.id) el.stopwatchTime = time;
+          if (id === el.id) {
+            el.stopwatchTime = time;
+            el.playerState = playerState;
+          }
           return el;
         }),
       };
@@ -125,7 +129,7 @@ export default class App extends Component {
             doneToggle={(id, checked) => this.doneToggle(id, checked)}
             editingBtn={(id) => this.editingBtn(id)}
             editingText={(id, text) => this.editingText(id, text)}
-            updateStopwatchTime={(id, time) => this.updateStopwatchTime(id, time)}
+            updateStopwatchTime={(id, time, playerState) => this.updateStopwatchTime(id, time, playerState)}
           />
           <Footer
             sizeUncompleted={sizeUncompleted}
