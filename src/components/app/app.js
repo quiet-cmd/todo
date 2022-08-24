@@ -55,7 +55,7 @@ const App = () => {
     const { completed, uncompleted } = statuses;
     setTasks(() =>
       tasks.map((el) => {
-        let { status, checked } = el;
+        const { status, checked } = el;
         if (id === el.id) {
           el.status = status === completed ? uncompleted : completed;
           el.checked = !checked;
