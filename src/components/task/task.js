@@ -4,7 +4,7 @@ import { formatDistanceToNow } from 'date-fns';
 import './task.css';
 import Stopwatch from '../stopwatch';
 
-const Task = ({ text, doneToggle, onDeleted, editingBtn, checked, updateStopwatchTime, createTime, ...props }) => {
+const Task = ({ text, doneToggle, onDeleted, editingBtn, checked, createTime, ...props }) => {
   const [timeAgo, setTime] = useState(formatDistanceToNow(createTime, { includeSeconds: true }));
   const [timerID, setTimerID] = useState();
 
@@ -22,7 +22,7 @@ const Task = ({ text, doneToggle, onDeleted, editingBtn, checked, updateStopwatc
       <input className="toggle" type="checkbox" checked={checked} onChange={doneToggle} />
       <label>
         <span className="title">{text}</span>
-        <Stopwatch {...props} updateStopwatchTime={updateStopwatchTime} />
+        <Stopwatch {...props} />
         <span className="description">created {timeAgo}</span>
       </label>
       <button className="icon icon-edit" onClick={editingBtn}></button>

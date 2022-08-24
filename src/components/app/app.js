@@ -16,7 +16,7 @@ const App = () => {
   };
 
   const deleteItem = (id) => {
-    setTasks(() => tasks.filter(({ id: el }) => el !== id));
+    setTasks(tasks.filter(({ id: el }) => el !== id));
   };
 
   const addItem = (value, minutes, seconds) => {
@@ -36,7 +36,7 @@ const App = () => {
 
   const deleteCompleted = () => {
     const { completed } = statuses;
-    setTasks(() => tasks.filter(({ status }) => status !== completed));
+    setTasks(tasks.filter(({ status }) => status !== completed));
   };
 
   const changeFilter = (filter) => {
@@ -90,8 +90,8 @@ const App = () => {
   };
 
   const updateStopwatchTime = (id, time, playerState) => {
-    setTasks(() =>
-      tasks.map((el) => {
+    setTasks((el) =>
+      el.map((el) => {
         if (id === el.id) {
           el.stopwatchTime = time;
           el.playerState = playerState;
@@ -101,8 +101,9 @@ const App = () => {
     );
   };
 
-  const { completed } = statuses;
-  const sizeUncompleted = tasks.reduce((acc, { status }) => (acc += status !== completed), 0);
+  //const { completed } = statuses;
+  //const sizeUncompleted = tasks.reduce((acc, { status }) => (acc += status !== completed), 0);
+  const sizeUncompleted = 0;
   const visibly = filterItems(tasks, filter, statuses) || [];
 
   return (
