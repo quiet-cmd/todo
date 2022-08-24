@@ -1,41 +1,34 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import { formatDistanceToNow } from 'date-fns';
 
 import './task.css';
 import Stopwatch from '../stopwatch';
 
-export default class Task extends Component {
-  state = {
-    timeAgo: formatDistanceToNow(this.props.createTime, { includeSeconds: true }),
-  };
+const Task = ({ text, doneToggle, onDeleted, editingBtn, checked, updateStopwatchTime, createTime, ...props }) => {
+  const [timeAgo, setTime] = useState(formatDistanceToNow(createTime, { includeSeconds: true }));
+  const [timerID, setTimerID] = useState();
 
-  componentDidMount() {
-    this.timerID = setInterval(() => this.tick(), 1000);
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.timerID);
-  }
-
-  tick() {
-    this.setState({ timeAgo: formatDistanceToNow(this.props.createTime, { includeSeconds: true }) });
-  }
-
-  render() {
-    const { text, doneToggle, onDeleted, editingBtn, checked, updateStopwatchTime, ...props } = this.props;
-    const { timeAgo } = this.state;
-
-    return (
-      <div className="view">
-        <input className="toggle" type="checkbox" checked={checked} onChange={doneToggle} />
-        <label>
-          <span className="title">{text}</span>
-          <Stopwatch {...props} updateStopwatchTime={updateStopwatchTime} />
-          <span className="description">created {timeAgo}</span>
-        </label>
-        <button className="icon icon-edit" onClick={editingBtn}></button>
-        <button className="icon icon-destroy" onClick={onDeleted}></button>
-      </div>
+  useEffect(() => {
+    setTimerID(
+      setInterval(() => {
+        setTime(formatDistanceToNow(createTime, { includeSeconds: true }));
+      }, 1000)
     );
-  }
-}
+    return () => clearInterval(timerID);
+  }, []);
+
+  return (
+    <div className="view">
+      <input className="toggle" type="checkbox" checked={checked} onChange={doneToggle} />
+      <label>
+        <span className="title">{text}</span>
+        <Stopwatch {...props} updateStopwatchTime={updateStopwatchTime} />
+        <span className="description">created {timeAgo}</span>
+      </label>
+      <button className="icon icon-edit" onClick={editingBtn}></button>
+      <button className="icon icon-destroy" onClick={onDeleted}></button>
+    </div>
+  );
+};
+
+export default Task;

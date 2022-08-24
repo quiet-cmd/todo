@@ -1,59 +1,48 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { format } from 'date-fns';
 import './stopwatch.css';
 
-export default class Stopwatch extends Component {
-  state = {
-    timer: 0,
-    player: false,
-  };
+const Stopwatch = ({ stopwatchTime, playerState, updateStopwatchTime }) => {
+  const [player, setPlayer] = useState(playerState);
+  const [timer, setTimer] = useState(stopwatchTime);
+  const [timerID, setTimerID] = useState();
+  const timerRef = useRef(timer);
+  const playerRef = useRef(player);
 
-  componentDidMount() {
-    const { stopwatchTime, playerState } = this.props;
-    if (playerState) {
-      const time = new Date() - stopwatchTime;
-      this.setState({ timer: time });
-      this.timerStart();
-      return;
+  useEffect(() => {
+    if (player) setTimer((e) => new Date() - e);
+    return () => {
+      clearInterval(timerID);
+      if (playerRef.current) return updateStopwatchTime(new Date() - timerRef.current, playerRef.current);
+      updateStopwatchTime(timerRef.current, playerRef.current);
+    };
+  }, []);
+
+  useEffect(() => {
+    timerRef.current = timer;
+  }, [timer]);
+
+  useEffect(() => {
+    playerRef.current = player;
+    clearInterval(timerID);
+    if (player) {
+      setTimerID(setInterval(() => setTimer((timer) => timer + 1000), 1000));
     }
-    this.setState({ timer: stopwatchTime });
-  }
+  }, [player]);
 
-  componentWillUnmount() {
-    const { timer, player } = this.state;
-    clearInterval(this.timerID);
-    if (player) return this.props.updateStopwatchTime(new Date() - timer, player);
-    this.props.updateStopwatchTime(timer, player);
-  }
-
-  timerStart = () => {
-    this.setState({ player: true });
-    clearInterval(this.timerID);
-    this.timerID = setInterval(() => this.setState({ timer: this.state.timer + 1000 }), 1000);
-  };
-
-  timerStop = () => {
-    this.setState({ player: false });
-    clearInterval(this.timerID);
-  };
-
-  timeFormat(time) {
+  const timeFormat = (time) => {
     const timestamp = new Date(1995, 11, 17, 0, 0, 0).getTime();
-    if (time >= 86399000) {
-      time = time % 86399000;
-      this.setState({ timer: time });
-    }
-    const date = new Date(timestamp + time);
-    return format(date, 'HH:mm:ss');
-  }
+    if (time >= 86399000) setTimer(() => time % 86399000);
+    return format(new Date(timestamp + time), 'HH:mm:ss');
+  };
 
-  render() {
-    return (
-      <span className="description">
-        <button className="icon icon-play" value={true} onClick={this.timerStart} />
-        <button className="icon icon-pause" value={false} onClick={this.timerStop} />
-        {this.timeFormat(this.state.timer)}
-      </span>
-    );
-  }
-}
+  return (
+    <span className="description">
+      <button className="icon icon-play" onClick={() => setPlayer(true)} />
+      <button className="icon icon-pause" onClick={() => setPlayer(false)} />
+      {timeFormat(timer)}
+    </span>
+  );
+};
+
+export default Stopwatch;

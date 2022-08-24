@@ -6,7 +6,7 @@ import Footer from '../footer';
 
 import './app.css';
 
-export default class App extends Component {
+class App extends Component {
   maxId = 100;
 
   state = {
@@ -142,3 +142,5 @@ export default class App extends Component {
     );
   }
 }
+
+export default App;

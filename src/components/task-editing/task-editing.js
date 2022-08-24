@@ -1,36 +1,17 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 
 import './task-editing.css';
 
-export default class TaskEditing extends Component {
-  state = {
-    value: 'Editing task',
+const TaskEditing = ({ editingText }) => {
+  const [value, setValue] = useState('Editing task');
+
+  const inputTask = (e) => setValue(e.target.value);
+
+  const inputInter = (e) => {
+    if (e.key === 'Enter') editingText(value);
   };
 
-  inputTask = (e) => {
-    this.setState(() => {
-      return { value: e.target.value };
-    });
-  };
+  return <input type="text" className="edit" value={value} onChange={inputTask} onKeyPress={inputInter} />;
+};
 
-  inputInter = (e) => {
-    if (e.key === 'Enter') {
-      this.setState(() => {
-        this.props.editingText(this.state.value);
-        return { value: '' };
-      });
-    }
-  };
-
-  render() {
-    return (
-      <input
-        type="text"
-        className="edit"
-        value={this.state.value}
-        onChange={this.inputTask}
-        onKeyPress={this.inputInter}
-      />
-    );
-  }
-}
+export default TaskEditing;
