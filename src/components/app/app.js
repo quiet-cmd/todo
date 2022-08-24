@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import Header from '../header';
 import TaskList from '../task-list';
 import Footer from '../footer';
+import { Context } from '../context';
 
 import './app.css';
 
@@ -101,32 +102,30 @@ const App = () => {
     );
   };
 
-  //const { completed } = statuses;
-  //const sizeUncompleted = tasks.reduce((acc, { status }) => (acc += status !== completed), 0);
-  const sizeUncompleted = 0;
+  const { completed } = statuses;
+  const sizeUncompleted = tasks.reduce((acc, { status }) => (acc += status !== completed), 0);
   const visibly = filterItems(tasks, filter, statuses) || [];
 
   return (
-    <section className="todoapp">
-      <Header addItem={(text, minutes, seconds) => addItem(text, minutes, seconds)} />
-      <section className="main">
-        <TaskList
-          tasks={visibly}
-          statuses={statuses}
-          onDeleted={(id) => deleteItem(id)}
-          doneToggle={(id, checked) => doneToggle(id, checked)}
-          editingBtn={(id) => editingBtn(id)}
-          editingText={(id, text) => editingText(id, text)}
-          updateStopwatchTime={(id, time, playerState) => updateStopwatchTime(id, time, playerState)}
-        />
-        <Footer
-          sizeUncompleted={sizeUncompleted}
-          filter={filter}
-          deleteCompleted={() => deleteCompleted()}
-          changeFilter={(text) => changeFilter(text)}
-        />
+    <Context.Provider
+      value={{
+        deleteItem,
+        editingBtn,
+        editingText,
+        deleteCompleted,
+        changeFilter,
+        updateStopwatchTime,
+        addItem,
+      }}
+    >
+      <section className="todoapp">
+        <Header />
+        <section className="main">
+          <TaskList tasks={visibly} statuses={statuses} doneToggle={(id, checked) => doneToggle(id, checked)} />
+          <Footer sizeUncompleted={sizeUncompleted} filter={filter} />
+        </section>
       </section>
-    </section>
+    </Context.Provider>
   );
 };
 

@@ -1,13 +1,16 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+
+import { Context } from '../context';
 
 import './new-task-form.css';
 
-const NewTaskForm = ({ addItem }) => {
+const NewTaskForm = () => {
   const [inputState, setInputState] = useState({
     value: '',
     minutes: '',
     seconds: '',
   });
+  const { addItem } = useContext(Context);
 
   const validator = (text) => {
     return text.replace('-', '').replace('.', '').slice(0, 3);

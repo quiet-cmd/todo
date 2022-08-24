@@ -1,20 +1,23 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import { format } from 'date-fns';
 import './stopwatch.css';
 
-const Stopwatch = ({ stopwatchTime, playerState, updateStopwatchTime }) => {
+import { Context } from '../context';
+
+const Stopwatch = ({ stopwatchTime, playerState, id }) => {
   const [player, setPlayer] = useState(playerState);
   const [timer, setTimer] = useState(stopwatchTime);
   const [timerID, setTimerID] = useState();
   const timerRef = useRef(timer);
   const playerRef = useRef(player);
+  const { updateStopwatchTime } = useContext(Context);
 
   useEffect(() => {
     if (player) setTimer((e) => new Date() - e);
     return () => {
       clearInterval(timerID);
-      if (playerRef.current) return updateStopwatchTime(new Date() - timerRef.current, playerRef.current);
-      updateStopwatchTime(timerRef.current, playerRef.current);
+      if (playerRef.current) return updateStopwatchTime(id, new Date() - timerRef.current, playerRef.current);
+      updateStopwatchTime(id, timerRef.current, playerRef.current);
     };
   }, []);
 

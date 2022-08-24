@@ -1,14 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+
+import { Context } from '../context';
 
 import './task-editing.css';
 
-const TaskEditing = ({ editingText }) => {
+const TaskEditing = ({ id }) => {
   const [value, setValue] = useState('Editing task');
+  const { editingText } = useContext(Context);
 
   const inputTask = (e) => setValue(e.target.value);
 
   const inputInter = (e) => {
-    if (e.key === 'Enter') editingText(value);
+    if (e.key === 'Enter') editingText(id, value);
   };
 
   return <input type="text" className="edit" value={value} onChange={inputTask} onKeyPress={inputInter} />;

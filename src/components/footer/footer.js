@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
+import { Context } from '../context';
 import TasksFilter from '../tasks-filter';
 
 import './footer.css';
 
-const Footer = ({ sizeUncompleted, deleteCompleted, filter, changeFilter }) => {
+const Footer = ({ sizeUncompleted, filter }) => {
+  const { deleteCompleted } = useContext(Context);
   return (
     <footer className="footer">
       <span className="todo-count">{sizeUncompleted} items left</span>
-      <TasksFilter filter={filter} changeFilter={changeFilter} />
+      <TasksFilter filter={filter} />
       <button className="clear-completed" onClick={deleteCompleted}>
         Clear completed
       </button>

@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
+
+import { Context } from '../context';
 
 import './tasks-filter.css';
 
@@ -8,7 +10,8 @@ const filterButtons = [
   { name: 'completed', label: 'Completed' },
 ];
 
-const TasksFilter = ({ filter, changeFilter }) => {
+const TasksFilter = ({ filter }) => {
+  const { changeFilter } = useContext(Context);
   const btn = filterButtons.map(({ name, label }) => {
     const selected = filter === name ? 'selected' : '';
     return (

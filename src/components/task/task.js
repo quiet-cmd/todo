@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { formatDistanceToNow } from 'date-fns';
 
+import { Context } from '../context';
 import './task.css';
 import Stopwatch from '../stopwatch';
 
-const Task = ({ text, doneToggle, onDeleted, editingBtn, checked, createTime, ...props }) => {
+const Task = ({ text, doneToggle, checked, createTime, id, ...props }) => {
   const [timeAgo, setTime] = useState(formatDistanceToNow(createTime, { includeSeconds: true }));
   const [timerID, setTimerID] = useState();
+  const { editingBtn, deleteItem } = useContext(Context);
 
   useEffect(() => {
     setTimerID(
@@ -22,11 +24,11 @@ const Task = ({ text, doneToggle, onDeleted, editingBtn, checked, createTime, ..
       <input className="toggle" type="checkbox" checked={checked} onChange={doneToggle} />
       <label>
         <span className="title">{text}</span>
-        <Stopwatch {...props} />
+        <Stopwatch id={id} {...props} />
         <span className="description">created {timeAgo}</span>
       </label>
-      <button className="icon icon-edit" onClick={editingBtn}></button>
-      <button className="icon icon-destroy" onClick={onDeleted}></button>
+      <button className="icon icon-edit" onClick={() => editingBtn(id)}></button>
+      <button className="icon icon-destroy" onClick={() => deleteItem(id)}></button>
     </div>
   );
 };
