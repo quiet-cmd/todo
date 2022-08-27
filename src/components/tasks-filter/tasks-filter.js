@@ -4,14 +4,18 @@ import { Context } from '../context';
 
 import './tasks-filter.css';
 
-const filterButtons = [
-  { name: 'all', label: 'All' },
-  { name: 'uncompleted', label: 'Active' },
-  { name: 'completed', label: 'Completed' },
-];
-
 const TasksFilter = ({ filter }) => {
-  const { changeFilter } = useContext(Context);
+  const {
+    changeFilter,
+    statuses: { all, uncompleted, completed },
+  } = useContext(Context);
+
+  const filterButtons = [
+    { name: all, label: 'All' },
+    { name: uncompleted, label: 'Active' },
+    { name: completed, label: 'Completed' },
+  ];
+
   const btn = filterButtons.map(({ name, label }) => {
     const selected = filter === name ? 'selected' : '';
     return (

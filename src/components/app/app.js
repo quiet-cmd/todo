@@ -8,13 +8,14 @@ import { Context } from '../context';
 import './app.css';
 
 const App = () => {
-  const [filter, setFilter] = useState('all');
-  const [tasks, setTasks] = useState([]);
   const statuses = {
+    all: 'all',
     completed: 'completed',
     editing: 'editing',
     uncompleted: 'uncompleted',
   };
+  const [filter, setFilter] = useState(statuses.all);
+  const [tasks, setTasks] = useState([]);
 
   const deleteItem = (id) => {
     setTasks(tasks.filter(({ id: el }) => el !== id));
@@ -44,11 +45,11 @@ const App = () => {
     setFilter(filter);
   };
 
-  const filterItems = (items, filter, filters) => {
-    const { completed, uncompleted } = filters;
-    if (filter === 'all') return items;
-    if (filter === 'uncompleted') return items.filter(({ status }) => status === uncompleted);
-    if (filter === 'completed') return items.filter(({ status }) => status === completed);
+  const filterItems = (items, filter) => {
+    const { all, completed, uncompleted } = statuses;
+    if (filter === all) return items;
+    if (filter === uncompleted) return items.filter(({ status }) => status === uncompleted);
+    if (filter === completed) return items.filter(({ status }) => status === completed);
   };
 
   const doneToggle = (id) => {
@@ -102,9 +103,9 @@ const App = () => {
     );
   };
 
-  const { completed } = statuses;
+  const { completed, editing } = statuses;
   const sizeUncompleted = tasks.reduce((acc, { status }) => (acc += status !== completed), 0);
-  const visibly = filterItems(tasks, filter, statuses) || [];
+  const visibly = filterItems(tasks, filter) || [];
 
   return (
     <Context.Provider
@@ -116,12 +117,13 @@ const App = () => {
         changeFilter,
         updateStopwatchTime,
         addItem,
+        statuses,
       }}
     >
       <section className="todoapp">
         <Header />
         <section className="main">
-          <TaskList tasks={visibly} statuses={statuses} doneToggle={(id, checked) => doneToggle(id, checked)} />
+          <TaskList tasks={visibly} editing={editing} doneToggle={(id, checked) => doneToggle(id, checked)} />
           <Footer sizeUncompleted={sizeUncompleted} filter={filter} />
         </section>
       </section>

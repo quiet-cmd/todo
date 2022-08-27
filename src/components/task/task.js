@@ -7,15 +7,12 @@ import Stopwatch from '../stopwatch';
 
 const Task = ({ text, doneToggle, checked, createTime, id, ...props }) => {
   const [timeAgo, setTime] = useState(formatDistanceToNow(createTime, { includeSeconds: true }));
-  const [timerID, setTimerID] = useState();
   const { editingBtn, deleteItem } = useContext(Context);
 
   useEffect(() => {
-    setTimerID(
-      setInterval(() => {
-        setTime(formatDistanceToNow(createTime, { includeSeconds: true }));
-      }, 1000)
-    );
+    const timerID = setInterval(() => {
+      setTime(formatDistanceToNow(createTime, { includeSeconds: true }));
+    }, 1000);
     return () => clearInterval(timerID);
   }, []);
 

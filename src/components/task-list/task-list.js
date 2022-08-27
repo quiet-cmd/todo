@@ -5,7 +5,7 @@ import TaskEditing from '../task-editing';
 
 import './task-list.css';
 
-const TaskList = ({ tasks, statuses: { editing }, doneToggle }) => {
+const TaskList = ({ tasks, editing, doneToggle }) => {
   const switchStatus = (e, id, fn, status) => {
     const targetName = e.target.localName;
     const typeExp = targetName !== 'input' && targetName !== 'button';
