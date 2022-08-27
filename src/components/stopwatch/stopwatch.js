@@ -10,14 +10,14 @@ const Stopwatch = ({ stopwatchTime, playerState, id }) => {
   const [timerID, setTimerID] = useState();
   const timerRef = useRef(timer);
   const playerRef = useRef(player);
-  const { updateStopwatchTime } = useContext(Context);
+  const { rememberStateStopwatch } = useContext(Context);
 
   useEffect(() => {
     if (player) setTimer((e) => new Date() - e);
     return () => {
       clearInterval(timerID);
-      if (playerRef.current) return updateStopwatchTime(id, new Date() - timerRef.current, playerRef.current);
-      updateStopwatchTime(id, timerRef.current, playerRef.current);
+      if (playerRef.current) return rememberStateStopwatch(id, new Date() - timerRef.current, playerRef.current);
+      rememberStateStopwatch(id, timerRef.current, playerRef.current);
     };
   }, []);
 

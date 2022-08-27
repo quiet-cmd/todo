@@ -5,7 +5,7 @@ import TaskEditing from '../task-editing';
 
 import './task-list.css';
 
-const TaskList = ({ tasks, editing, doneToggle }) => {
+const TaskList = ({ tasks, editing, toggleProgressStatus }) => {
   const switchStatus = (e, id, fn, status) => {
     const targetName = e.target.localName;
     const typeExp = targetName !== 'input' && targetName !== 'button';
@@ -14,8 +14,8 @@ const TaskList = ({ tasks, editing, doneToggle }) => {
 
   const task = tasks.map(({ id, status, ...par }) => {
     return (
-      <li key={id} className={status} onClickCapture={(e) => switchStatus(e, id, doneToggle, editing)}>
-        <Task {...par} id={id} doneToggle={() => doneToggle(id)} />
+      <li key={id} className={status} onClickCapture={(e) => switchStatus(e, id, toggleProgressStatus, editing)}>
+        <Task {...par} id={id} toggleProgressStatus={() => toggleProgressStatus(id)} />
         {status === editing && <TaskEditing id={id} />}
       </li>
     );

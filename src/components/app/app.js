@@ -52,7 +52,7 @@ const App = () => {
     if (filter === completed) return items.filter(({ status }) => status === completed);
   };
 
-  const doneToggle = (id) => {
+  const toggleProgressStatus = (id) => {
     const { completed, uncompleted } = statuses;
     setTasks(() =>
       tasks.map((el) => {
@@ -66,7 +66,7 @@ const App = () => {
     );
   };
 
-  const editingBtn = (id) => {
+  const setEditingStatus = (id) => {
     const { editing } = statuses;
     setTasks(() =>
       tasks.map((el) => {
@@ -79,7 +79,7 @@ const App = () => {
     );
   };
 
-  const editingText = (id, text) => {
+  const setNewText = (id, text) => {
     setTasks(() =>
       tasks.map((el) => {
         if (id === el.id) {
@@ -91,7 +91,7 @@ const App = () => {
     );
   };
 
-  const updateStopwatchTime = (id, time, playerState) => {
+  const rememberStateStopwatch = (id, time, playerState) => {
     setTasks((el) =>
       el.map((el) => {
         if (id === el.id) {
@@ -106,16 +106,15 @@ const App = () => {
   const { completed, editing } = statuses;
   const sizeUncompleted = tasks.reduce((acc, { status }) => (acc += status !== completed), 0);
   const visibly = filterItems(tasks, filter) || [];
-
   return (
     <Context.Provider
       value={{
         deleteItem,
-        editingBtn,
-        editingText,
+        setEditingStatus,
+        setNewText,
         deleteCompleted,
         changeFilter,
-        updateStopwatchTime,
+        rememberStateStopwatch,
         addItem,
         statuses,
       }}
@@ -123,7 +122,11 @@ const App = () => {
       <section className="todoapp">
         <Header />
         <section className="main">
-          <TaskList tasks={visibly} editing={editing} doneToggle={(id, checked) => doneToggle(id, checked)} />
+          <TaskList
+            tasks={visibly}
+            editing={editing}
+            toggleProgressStatus={(id, checked) => toggleProgressStatus(id, checked)}
+          />
           <Footer sizeUncompleted={sizeUncompleted} filter={filter} />
         </section>
       </section>

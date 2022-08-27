@@ -6,12 +6,12 @@ import './task-editing.css';
 
 const TaskEditing = ({ id }) => {
   const [value, setValue] = useState('Editing task');
-  const { editingText } = useContext(Context);
+  const { setNewText } = useContext(Context);
 
   const inputTask = (e) => setValue(e.target.value);
 
   const inputInter = (e) => {
-    if (e.key === 'Enter') editingText(id, value);
+    if (e.key === 'Enter') setNewText(id, value);
   };
 
   return <input type="text" className="edit" value={value} onChange={inputTask} onKeyPress={inputInter} />;
